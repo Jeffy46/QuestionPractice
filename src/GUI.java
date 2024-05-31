@@ -37,7 +37,7 @@ public class GUI implements ActionListener {
         frame.setLayout(null); // Use null layout for absolute positioning
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        questiontext.setText("<html>Give me 30 grammar and math multiple choice questions with option choices but add a \"@\" before each question number like \"@1.\"  Make the topic of each question more specific and give topics for each question individually. Only put a \"|\" at the end of choice d.\n\" into ChatGPT.<html>");
+        questiontext.setText("<html>Give me 30 grammar and math multiple choice questions with option choices but add a \"@\" before each question number like \"@1.\"  Make the topic of each question more specific and give topics for each question individually. Only put a \"|\" at the end of choice d. Make the questions in the format \"1)\".\n\" into ChatGPT.<html>");
         questiontext.setBounds(590, 130, 700, 60);
         Title.setFont(new Font("Arial", Font.PLAIN, 10));
         Title.setText("Question Practice");
