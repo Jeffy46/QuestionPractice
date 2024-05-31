@@ -65,9 +65,26 @@ public class GUI implements ActionListener {
             while(temp.contains("@")){
                 int topicIndex = temp.indexOf("@")+4;
                 int topicEnd = temp.indexOf(":");
+                int questionIndex = topicEnd+2;
+                int AIndex = temp.indexOf("a.");
+                int BIndex = temp.indexOf("b.");
+                int CIndex = temp.indexOf("c.");
+                int DIndex = temp.indexOf("d.");
                 Topics.add(temp.substring(topicIndex, topicEnd));
-                System.out.println(Topics);
-                System.out.println(Topics.size());
+                QuestionsList.add(temp.substring(questionIndex,AIndex));
+                ;
+                A.add(temp.substring(AIndex+3,BIndex));
+                B.add(temp.substring(BIndex+3,CIndex));
+                C.add(temp.substring(CIndex+3,DIndex));
+                D.add(temp.substring(DIndex+3,temp.indexOf("|")));
+                System.out.println(A);
+                System.out.println(B);
+                System.out.println(C);
+                System.out.println(D);
+                System.out.println(A.size());
+                System.out.println(B.size());
+                System.out.println(C.size());
+                System.out.println(D.size());
                 temp = temp.substring(temp.indexOf("|")+2);
                 System.out.println(temp);
 
