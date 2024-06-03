@@ -9,16 +9,21 @@ import java.util.ArrayList;
 public class GUI implements ActionListener {
     private JFrame frame;
     private JPanel panel;
-    private JPanel panel2;
     private JLabel Title;
     private JLabel questiontext;
-    private JTextField Questions;
+    private JTextField questionsInput;
+    private int questionNum = 0;
     private JButton Enter;
     private String temp;
     JButton choiceA;
     JButton choiceB;
     JButton choiceC;
     JButton choiceD;
+    JLabel aText;
+    JLabel bText;
+    JLabel cText;
+    JLabel dText;
+
     private ArrayList<String> QuestionsList;
     private ArrayList<String> Topics;
     private ArrayList<String> A;
@@ -34,7 +39,7 @@ public class GUI implements ActionListener {
         panel = new JPanel();
         Title = new JLabel();
         questiontext = new JLabel();
-        Questions = new JTextField(10);
+        questionsInput = new JTextField(10);
         Enter = new JButton("Enter");
         temp = "";
         QuestionsList = new ArrayList<String>();
@@ -59,36 +64,61 @@ public class GUI implements ActionListener {
         Enter.addActionListener(this);
 
         // Set the position for the JTextField
-        Questions.setBounds(660, 200, 400, 30); // Adjust the position and size as needed
+        questionsInput.setBounds(660, 200, 400, 30); // Adjust the position and size as needed
         Enter.setBounds(785, 250, 100, 30);
 
         // Add components to the frame
         panel.add(Enter);
         panel.add(Title);
-        panel.add(Questions);
+        panel.add(questionsInput);
         panel.add(questiontext);
         panel.setVisible(true);
         frame.add(panel);
         frame.setVisible(true);
     }
     private void GameScreen(){
-        panel2 = new JPanel();
-        panel2.setSize(1920,1080);
-        panel.setLayout(null); // Use null layout for absolute positioning
         Enter.setVisible(false);
         questiontext.setVisible(false);
-        Questions.setVisible(false);
-        panel2.setBackground(Color.CYAN);
-        Title = new JLabel();
-        Title.setFont(new Font("Arial", Font.PLAIN, 10));
-        Title.setText("Question Practice");
-        Title.setBounds(660, 80, 400, 50); // Adjust the size if needed
-        Title.setFont(new Font("Arial", Font.PLAIN, 50));
-        Title.setVisible(true);
-        panel2.add(Title);
-        panel2.setVisible(true);
-        frame.add(panel2);
+        questionsInput.setVisible(false);
+        JLabel askedQuestion = new JLabel(QuestionsList.get(questionNum));
+
+        askedQuestion.setVisible(true);
+
+
+        for(int i = 0;i < QuestionsList.size();i++){
+            while(questionNum != QuestionsList.size()){
+                choiceA= new JButton(A.get(questionNum));
+
+                choiceB = new JButton(B.get(questionNum));
+
+                choiceC = new JButton(C.get(questionNum));
+
+                choiceD = new JButton(D.get(questionNum));
+                questionNum++;
+                break;
+            }
+            panel.add(choiceA);
+            panel.add(choiceB);
+            panel.add(choiceC);
+            panel.add(choiceD);
+            choiceA.setVisible(true);
+            choiceB.setVisible(true);
+            choiceC.setVisible(true);
+            choiceD.setVisible(true);
+        }
+
+
+        panel.add(askedQuestion);
+        choiceA.setBounds(500, 230, 700, 60);
+        choiceB.setBounds(500, 330, 700, 60);
+        choiceC.setBounds(500, 430, 700, 60);
+        choiceD.setBounds(500, 530, 700, 60);
+        askedQuestion.setBounds(500, 130, 700, 60);
+
+
+
     }
+
 
 
     //Parses information from String
@@ -96,7 +126,7 @@ public class GUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == Enter) {
 
-            temp = Questions.getText();
+            temp = questionsInput.getText();
             System.out.println(temp);
             while(temp.contains("@")) {
                 int topicEnd = temp.indexOf(":");
