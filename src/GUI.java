@@ -19,10 +19,6 @@ public class GUI implements ActionListener {
     JButton choiceB;
     JButton choiceC;
     JButton choiceD;
-    JLabel aText;
-    JLabel bText;
-    JLabel cText;
-    JLabel dText;
 
     private ArrayList<String> QuestionsList;
     private ArrayList<String> Topics;
