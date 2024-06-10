@@ -11,22 +11,27 @@ public class GUI implements ActionListener {
     private JPanel panel;
     private JLabel Title;
     private JLabel questiontext;
+    private JLabel askedQuestion;
     private JTextField questionsInput;
     private int questionNum = 0;
     private JButton Enter;
     private String temp;
-    JButton choiceA;
-    JButton choiceB;
-    JButton choiceC;
-    JButton choiceD;
+    JButton buttonA;
+    JButton buttonB;
+    JButton buttonC;
+    JButton buttonD;
 
     private ArrayList<String> QuestionsList;
     private ArrayList<String> Topics;
+    private ArrayList<String> topicWeaknesses = new ArrayList<>();
     private ArrayList<String> A;
     private ArrayList<String> B;
     private ArrayList<String> C;
     private ArrayList<String> D;
     private ArrayList<String> Answers;
+
+
+    private int correct = 0;
     public GUI() {
         //Start Screen GUI
         startScreen();
@@ -77,37 +82,39 @@ public class GUI implements ActionListener {
         Enter.setVisible(false);
         questiontext.setVisible(false);
         questionsInput.setVisible(false);
-        JLabel askedQuestion = new JLabel(QuestionsList.get(questionNum));
+        askedQuestion = new JLabel(QuestionsList.get(questionNum));
 
         askedQuestion.setVisible(true);
 
-        choiceA= new JButton(A.get(questionNum));
+        buttonA= new JButton(A.get(questionNum));
 
-        choiceB = new JButton(B.get(questionNum));
+        buttonB = new JButton(B.get(questionNum));
 
-        choiceC = new JButton(C.get(questionNum));
+        buttonC = new JButton(C.get(questionNum));
 
-        choiceD = new JButton(D.get(questionNum));
+        buttonD = new JButton(D.get(questionNum));
+        buttonA.addActionListener(this);
+        buttonB.addActionListener(this);
+        buttonC.addActionListener(this);
+        buttonD.addActionListener(this);
 
-        panel.add(choiceA);
-        panel.add(choiceB);
-        panel.add(choiceC);
-        panel.add(choiceD);
-        choiceA.setVisible(true);
-        choiceB.setVisible(true);
-        choiceC.setVisible(true);
-        choiceD.setVisible(true);
+
+        panel.add(buttonA);
+        panel.add(buttonB);
+        panel.add(buttonC);
+        panel.add(buttonD);
+        buttonA.setVisible(true);
+        buttonB.setVisible(true);
+        buttonC.setVisible(true);
+        buttonD.setVisible(true);
 
 
         panel.add(askedQuestion);
-        choiceA.setBounds(500, 230, 700, 60);
-        choiceB.setBounds(500, 330, 700, 60);
-        choiceC.setBounds(500, 430, 700, 60);
-        choiceD.setBounds(500, 530, 700, 60);
+        buttonA.setBounds(500, 230, 700, 60);
+        buttonB.setBounds(500, 330, 700, 60);
+        buttonC.setBounds(500, 430, 700, 60);
+        buttonD.setBounds(500, 530, 700, 60);
         askedQuestion.setBounds(600, 130, 700, 60);
-
-
-
     }
 
 
@@ -118,7 +125,7 @@ public class GUI implements ActionListener {
         if(e.getSource() == Enter) {
 
             temp = questionsInput.getText();
-            System.out.println(temp);
+
             while(temp.contains("@")) {
                 int topicEnd = temp.indexOf(":");
                 int questionIndex = temp.indexOf(":") + 2;
@@ -128,50 +135,156 @@ public class GUI implements ActionListener {
                 int choiceD = temp.indexOf("d)");
                 int end = temp.indexOf("|");
                 Topics.add(temp.substring(4, topicEnd));
-                System.out.println(Topics);
-                System.out.println(Topics.size());
+
                 QuestionsList.add(temp.substring(questionIndex, choiceA));
                 if(temp.substring(choiceA, choiceB).contains("*")){
-                    A.add(temp.substring(choiceA, choiceB-1));
-                    Answers.add(temp.substring(choiceA, choiceB-1));
+                    A.add(temp.substring(choiceA, choiceB-2));
+                    Answers.add(temp.substring(choiceA, choiceB-2));
                 }else{
                     A.add(temp.substring(choiceA, choiceB));
                 }
                 if(temp.substring(choiceB, choiceC).contains("*")){
-                    Answers.add(temp.substring(choiceB, choiceC-1));
-                    B.add(temp.substring(choiceB, choiceC-1));
+                    Answers.add(temp.substring(choiceB, choiceC-2));
+                    B.add(temp.substring(choiceB, choiceC-2));
                 }else{
                     B.add(temp.substring(choiceB, choiceC));
                 }
                 if(temp.substring(choiceC, choiceD).contains("*")){
-                    Answers.add(temp.substring(choiceC, choiceD-1));
-                    C.add(temp.substring(choiceC, choiceD-1));
+                    Answers.add(temp.substring(choiceC, choiceD-2));
+                    C.add(temp.substring(choiceC, choiceD-2));
 
                 }else{
                     C.add(temp.substring(choiceC, choiceD));
                 }
                 if(temp.substring(choiceD, end).contains("*")){
-                    Answers.add(temp.substring(choiceD, end-1));
-                    D.add(temp.substring(choiceD, end-1));
+                    Answers.add(temp.substring(choiceD, end-2));
+                    D.add(temp.substring(choiceD, end-2));
                 }else{
                     D.add(temp.substring(choiceD, end));
                 }
                 temp = temp.substring(temp.indexOf("|") + 2);
             }
-
             GameScreen();
         }
-        if(e.getSource() == choiceA){
+        JLabel percentage = new JLabel("You got " + correct + " questions right!.");
+        JLabel Weaknesses = new JLabel("<html>You need to work on the following topics: <html>" + topicWeaknesses);
+        if(e.getSource() == buttonA){
+            if(A.get(questionNum).equals(Answers.get(questionNum))){
+                correct++;
+                questionNum++;
+
+            }else{
+                topicWeaknesses.add(Topics.get(questionNum));
+                questionNum++;
+            }
+            if(questionNum < 30){
+                askedQuestion.setText(QuestionsList.get(questionNum));
+                buttonA.setText(A.get(questionNum));
+                buttonB.setText(B.get(questionNum));
+                buttonC.setText(C.get(questionNum));
+                buttonD.setText(D.get(questionNum));
+            }else{
+                buttonA.setVisible(false);
+                buttonB.setVisible(false);
+                buttonC.setVisible(false);
+                buttonD.setVisible(false);
+                askedQuestion.setVisible(false);
+                percentage.setVisible(true);
+                Weaknesses.setVisible(true);
+                percentage.setBounds(500,230, 700, 60);
+                Weaknesses.setBounds(500, 430, 700, 60);
+                panel.add(percentage);
+                panel.add(Weaknesses);
+
+            }
+        }
+        if(e.getSource() == buttonB){
+            if(B.get(questionNum).equals(Answers.get(questionNum))){
+                correct++;
+                questionNum++;
+
+            }else{
+                topicWeaknesses.add(Topics.get(questionNum));
+                questionNum++;
+            }
+            if(questionNum < 30){
+                askedQuestion.setText(QuestionsList.get(questionNum));
+                buttonA.setText(A.get(questionNum));
+                buttonB.setText(B.get(questionNum));
+                buttonC.setText(C.get(questionNum));
+                buttonD.setText(D.get(questionNum));
+            }else{
+                buttonA.setVisible(false);
+                buttonB.setVisible(false);
+                buttonC.setVisible(false);
+                buttonD.setVisible(false);
+                askedQuestion.setVisible(false);
+                percentage.setVisible(true);
+                Weaknesses.setVisible(true);
+                percentage.setBounds(500,230, 700, 60);
+                Weaknesses.setBounds(500, 430, 700, 60);
+                panel.add(percentage);
+                panel.add(Weaknesses);
+            }
+        }
+        if(e.getSource() == buttonC){
+            if(C.get(questionNum).equals(Answers.get(questionNum))){
+                correct++;
+                questionNum++;
+            }else{
+                topicWeaknesses.add(Topics.get(questionNum));
+                questionNum++;
+            }
+            if(questionNum < 30){
+                askedQuestion.setText(QuestionsList.get(questionNum));
+                buttonA.setText(A.get(questionNum));
+                buttonB.setText(B.get(questionNum));
+                buttonC.setText(C.get(questionNum));
+                buttonD.setText(D.get(questionNum));
+            }else{
+                buttonA.setVisible(false);
+                buttonB.setVisible(false);
+                buttonC.setVisible(false);
+                buttonD.setVisible(false);
+                askedQuestion.setVisible(false);
+                percentage.setVisible(true);
+                Weaknesses.setVisible(true);
+                percentage.setBounds(500,230, 700, 60);
+                Weaknesses.setBounds(500, 430, 700, 60);
+                panel.add(percentage);
+                panel.add(Weaknesses);
+            }
 
         }
-        if(e.getSource() == choiceB){
-
+        if(e.getSource() == buttonD){
+            if(D.get(questionNum).equals(Answers.get(questionNum))){
+                correct++;
+                questionNum++;
+            }else{
+                topicWeaknesses.add(Topics.get(questionNum));
+                questionNum++;
+            }
+            if(questionNum < 30){
+                askedQuestion.setText(QuestionsList.get(questionNum));
+                buttonA.setText(A.get(questionNum));
+                buttonB.setText(B.get(questionNum));
+                buttonC.setText(C.get(questionNum));
+                buttonD.setText(D.get(questionNum));
+            }else{
+                buttonA.setVisible(false);
+                buttonB.setVisible(false);
+                buttonC.setVisible(false);
+                buttonD.setVisible(false);
+                askedQuestion.setVisible(false);
+                percentage.setVisible(true);
+                Weaknesses.setVisible(true);
+                percentage.setBounds(500,230, 700, 60);
+                Weaknesses.setBounds(500, 430, 700, 60);
+                panel.add(percentage);
+                panel.add(Weaknesses);
+            }
         }
-        if(e.getSource() == choiceC){
 
-        }
-        if(e.getSource() == choiceD){
-
-        }
     }
+
 }
