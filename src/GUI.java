@@ -99,7 +99,6 @@ public class GUI implements ActionListener {
         buttonC.addActionListener(this);
         buttonD.addActionListener(this);
 
-
         panel.add(buttonA);
         panel.add(buttonB);
         panel.add(buttonC);
