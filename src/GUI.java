@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class GUI implements ActionListener {
+    //initialize variables
     private JFrame frame;
     private JPanel panel;
     private JLabel Title;
@@ -57,7 +58,7 @@ public class GUI implements ActionListener {
         panel.setLayout(null); // Use null layout for absolute positioning
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        questiontext.setText("<html>Give me 30 grammar and math multiple choice questions with option choices but add a \"@\" before each question number like \"@1.\"  Make the topic of each question more specific and give topics for each question individually. Only put a \"|\" at the end of choice d. Make the questions in the format \"1)\". Make the correct choice end with a \"*\". into ChatGPT.<html>");
+        questiontext.setText("<html>Give me 30 grammar and math multiple choice questions with option choices but add a \"@\" before each question number like \"@1.\"  Make the topic of each question more specific and give topics for each question individually. Only put a \"|\" at the end of choice d. Make the questions in the format \"1)\". Make the correct choice end with a \"*\". into ChatGPT.<html> You might have to try a few times!");
         questiontext.setBounds(500, 130, 700, 60);
         Title.setFont(new Font("Arial", Font.PLAIN, 10));
         Title.setText("Question Practice");
@@ -122,6 +123,7 @@ public class GUI implements ActionListener {
     //Parses information from String
     @Override
     public void actionPerformed(ActionEvent e) {
+        //parses for each needed in each Arraylist
         if(e.getSource() == Enter) {
 
             temp = questionsInput.getText();
@@ -166,8 +168,10 @@ public class GUI implements ActionListener {
             }
             GameScreen();
         }
+
         JLabel percentage = new JLabel("You got " + correct + " questions right!.");
         JLabel Weaknesses = new JLabel("<html>You need to work on the following topics: <html>" + topicWeaknesses);
+        //checks whether the choice you clicked was right and moves on to next question, if your at last question, it also moves you to end screen
         if(e.getSource() == buttonA){
             if(A.get(questionNum).equals(Answers.get(questionNum))){
                 correct++;
